@@ -8,3 +8,6 @@ Gemfile.lock
 /rdoc/
 fastlane/README.md
 fastlane/report.xml
+
+## Ignore generated asset catalogue
+Assets.xcassets/
