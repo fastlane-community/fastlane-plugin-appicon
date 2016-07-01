@@ -1,0 +1,3 @@
+lane :test do
+  appicon(appicon_image_file: 'spec/fixtures/Themoji.png')
+end
