@@ -1,3 +1,4 @@
 lane :test do
-  appicon(appicon_image_file: 'spec/fixtures/Themoji.png')
+  appicon(appicon_image_file: 'spec/fixtures/Themoji.png',
+    appicon_devices: [:ipad, :iphone])
 end

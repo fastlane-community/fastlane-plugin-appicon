@@ -33,8 +33,8 @@ module Fastlane
         params[:appicon_devices].each do |device|
           self.needed_icons[device].each do |scale, sizes|
             sizes.each do |size|
-              width, height = size.split('x').map { |v| v.to_i * scale.to_i }
-              filename = "#{basename}-#{width}x#{height}.png"
+              width, height = size.split('x').map { |v| v.to_f * scale.to_i }
+              filename = "#{basename}-#{width.to_i}x#{height.to_i}.png"
 
               image = MiniMagick::Image.open(fname)
               image.format 'png'
