@@ -22,9 +22,9 @@ module Fastlane
         require 'mini_magick'
         image = MiniMagick::Image.open(fname)
 
-        UI.user_error! "Minimum width of input image should be 1024" if image.width < 1024
-        UI.user_error! "Minimum height of input image should be 1024" if image.height < 1024
-        UI.user_error! "Input image should be square" if image.width != image.height
+        UI.user_error!("Minimum width of input image should be 1024") if image.width < 1024
+        UI.user_error!("Minimum height of input image should be 1024") if image.height < 1024
+        UI.user_error!("Input image should be square") if image.width != image.height
 
         FileUtils.mkdir_p(basepath)
 
