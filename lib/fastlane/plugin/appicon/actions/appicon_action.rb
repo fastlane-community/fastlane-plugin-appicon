@@ -60,7 +60,8 @@ module Fastlane
         }
 
         require 'json'
-        File.write(basepath + 'Contents.json', JSON.dump(contents))
+        File.write(File.join(basepath, 'Contents.json'), JSON.dump(contents))
+        UI.success("Successfully stored app icon at '#{basepath}'")
       end
 
       def self.description
