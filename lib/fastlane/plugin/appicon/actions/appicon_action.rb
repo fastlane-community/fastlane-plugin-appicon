@@ -55,7 +55,7 @@ module Fastlane
           'images' => images,
           'info' => {
             'version' => 1,
-            'author' => 'fastlane' # xcode?
+            'author' => 'fastlane'
           }
         }
 
