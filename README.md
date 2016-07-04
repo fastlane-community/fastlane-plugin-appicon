@@ -2,6 +2,8 @@
 
 [![fastlane Plugin Badge](https://rawcdn.githack.com/fastlane/fastlane/master/fastlane/assets/plugin-badge.svg)](https://rubygems.org/gems/fastlane-plugin-appicon)
 
+![Demo image](demo.png)
+
 ## Getting Started
 
 This project is a [fastlane](https://github.com/fastlane/fastlane) plugin. To get started with `fastlane-plugin-appicon`, add it to your project by running:
@@ -12,11 +14,22 @@ fastlane add_plugin appicon
 
 ## About appicon
 
-Generate required icon sizes and iconset from a master application icon.
+Generate required icon sizes and iconset from a master application icon. 
+
+Since many apps use a single 1024x1024 icon to produce all the required sizes from, why not automate the process and save lots of time?
 
 ## Example
 
-Check out the [example `Fastfile`](fastlane/Fastfile) to see how to use this plugin. Try it by cloning the repo, running `fastlane install_plugins` and `bundle exec fastlane test`. 
+Check out the [example `Fastfile`](fastlane/Fastfile) to see how to use this plugin. Try it by cloning the repo, running `fastlane install_plugins` and `bundle exec fastlane test`.
+
+Just specify the source image using the `appicon_image_file`. Optionally specify the devices  using `appicon_devices` and the destination path using `appicon_path`.
+
+```ruby
+lane :test do
+  appicon(appicon_image_file: 'spec/fixtures/Themoji.png',
+    appicon_devices: [:ipad, :iphone])
+end
+```
 
 ## Run tests for this plugin
 
