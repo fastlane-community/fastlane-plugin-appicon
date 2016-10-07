@@ -10,11 +10,23 @@ module Fastlane
           ipad: {
             '1x' => ['20x20', '29x29', '40x40', '76x76'],
             '2x' => ['20x20', '29x29', '40x40', '76x76', '83.5x83.5']
+          },
+          android: {
+            'ldpi' => ['36x36'],
+            'mdpi' => ['48x48'],
+            'hdpi' => ['72x72'],
+            'xhdpi' => ['96x96'],
+            'xxhdpi' => ['144x144'],
+            'xxxhdpi' => ['192x192'],
           }
         }
       end
 
       def self.run(params)
+
+        devices = params[:appicon_devices]
+        apples = !devices.include?(:android) || devices.length > 1
+
         fname = params[:appicon_image_file]
         basename = File.basename(fname, File.extname(fname))
         basepath = Pathname.new("#{params[:appicon_path]}/AppIcon.appiconset")
@@ -26,42 +38,66 @@ module Fastlane
         UI.user_error!("Minimum height of input image should be 1024") if image.height < 1024
         UI.user_error!("Input image should be square") if image.width != image.height
 
-        FileUtils.mkdir_p(basepath)
+        if apples
+          FileUtils.mkdir_p(basepath)
+        end
 
         images = []
 
-        params[:appicon_devices].each do |device|
+        devices.each do |device|
           self.needed_icons[device].each do |scale, sizes|
             sizes.each do |size|
               width, height = size.split('x').map { |v| v.to_f * scale.to_i }
-              filename = "#{basename}-#{width.to_i}x#{height.to_i}.png"
+
+              android = device == :android
+              filepath = ''
+
+              if !android
+                filename = "#{basename}-#{width.to_i}x#{height.to_i}.png"
+                filepath = basepath + filename
+              else
+                androidpath = Pathname.new( File.join("#{params[:appicon_res]}", "#{params[:appicon_res_foldername]}-#{scale}") )
+                FileUtils.mkdir_p(androidpath)
+                filename = "#{params[:appicon_res_filename]}.png"
+                filepath = androidpath + filename
+              end
 
               image = MiniMagick::Image.open(fname)
               image.format 'png'
               image.resize "#{width}x#{height}"
-              image.write basepath + filename
+              image.write filepath
 
-              images << {
-                'size' => size,
-                'idiom' => device,
-                'filename' => filename,
-                'scale' => scale
-              }
+              if !android
+                images << {
+                  'size' => size,
+                  'idiom' => device,
+                  'filename' => filename,
+                  'scale' => scale
+                }
+              end
             end
           end
         end
 
-        contents = {
-          'images' => images,
-          'info' => {
-            'version' => 1,
-            'author' => 'fastlane'
+        if apples
+          contents = {
+            'images' => images,
+            'info' => {
+              'version' => 1,
+              'author' => 'fastlane'
+            }
           }
-        }
 
-        require 'json'
-        File.write(File.join(basepath, 'Contents.json'), JSON.dump(contents))
-        UI.success("Successfully stored app icon at '#{basepath}'")
+          require 'json'
+          File.write(File.join(basepath, 'Contents.json'), JSON.dump(contents))
+          UI.success("Successfully stored app icon at '#{basepath}'")
+        end
+
+        if devices.include?(:android)
+          androidPath = File.join("#{params[:appicon_res]}", "#{params[:appicon_res_foldername]}")
+          UI.success("Successfully stored launcher icons at '#{androidPath}'")
+        end
+
       end
 
       def self.description
@@ -90,12 +126,30 @@ module Fastlane
                              default_value: 'Assets.xcassets',
                                description: "Path to the Asset catalogue for the generated iconset",
                                   optional: true,
-                                      type: String)
+                                      type: String),
+          FastlaneCore::ConfigItem.new(key: :appicon_res,
+                                  env_name: "APPICON_RES",
+                             default_value: 'app/res',
+                               description: "Path to the android resources folder for the generated iconset (Android only)",
+                                  optional: true,
+                                      type: String),
+          FastlaneCore::ConfigItem.new(key: :appicon_res_foldername,
+                                  env_name: "APPICON_RES_FOLDERNAME",
+                             default_value: 'mipmap',
+                               description: "Folder name inside of res (Android only)",
+                                  optional: true,
+                                      type: String),
+          FastlaneCore::ConfigItem.new(key: :appicon_res_filename,
+                                  env_name: "APPICON_RES_FILENAME",
+                             default_value: 'ic_launcher',
+                               description: "The output filename of each image (Android only)",
+                                  optional: true,
+                                      type: String),
         ]
       end
 
       def self.is_supported?(platform)
-        [:ios, :mac, :macos, :caros].include?(platform)
+        [:ios, :mac, :macos, :caros, :android].include?(platform)
       end
     end
   end
