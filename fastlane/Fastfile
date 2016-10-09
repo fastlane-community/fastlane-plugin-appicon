@@ -2,3 +2,9 @@ lane :test do
   appicon(appicon_image_file: 'spec/fixtures/Themoji.png',
     appicon_devices: [:ipad, :iphone])
 end
+
+lane :android do
+  android_appicon(appicon_image_file: 'spec/fixtures/Themoji.png',
+    appicon_devices: [:phone, :tablet],
+    appicon_path: 'app/res/mipmap')
+end

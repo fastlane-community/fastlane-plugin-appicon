@@ -14,7 +14,7 @@ fastlane add_plugin appicon
 
 ## About appicon
 
-Generate required icon sizes and iconset from a master application icon. 
+Generate required icon sizes and iconset from a master application icon.
 
 Since many apps use a single 1024x1024 icon to produce all the required sizes from, why not automate the process and save lots of time?
 
@@ -29,6 +29,14 @@ lane :test do
   appicon(appicon_image_file: 'spec/fixtures/Themoji.png',
     appicon_devices: [:ipad, :iphone])
 end
+
+# or
+
+lane :android do
+  android_appicon(appicon_image_file: 'spec/fixtures/Themoji.png',
+    appicon_devices: [:phone, :tablet],
+    appicon_path:'app/res/mipmap')
+end
 ```
 
 ## Run tests for this plugin
@@ -39,7 +47,7 @@ To run both the tests, and code style validation, run
 rake
 ```
 
-To automatically fix many of the styling issues, use 
+To automatically fix many of the styling issues, use
 ```
 rubocop -a
 ```
