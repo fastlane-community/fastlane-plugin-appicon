@@ -29,7 +29,7 @@ module Fastlane
         params[:appicon_devices].each do |device|
           self.needed_icons[device].each do |scale, sizes|
             sizes.each do |size|
-              width, height = size.split('x').map { |v| v.to_f * scale.to_i }
+              width, height = size.split('x').map { |v| v.to_f }
 
               basepath = Pathname.new("#{params[:appicon_path]}-#{scale}")
               FileUtils.mkdir_p(basepath)
