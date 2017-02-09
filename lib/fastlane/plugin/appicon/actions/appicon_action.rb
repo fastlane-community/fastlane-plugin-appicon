@@ -17,7 +17,7 @@ module Fastlane
       def self.run(params)
         fname = params[:appicon_image_file]
         basename = File.basename(fname, File.extname(fname))
-        basepath = Pathname.new("#{params[:appicon_path]}/#{params[:appicon_name]}")
+        basepath = Pathname.new(File.join(params[:appicon_path], params[:appicon_name]))
 
         require 'mini_magick'
         image = MiniMagick::Image.open(fname)
