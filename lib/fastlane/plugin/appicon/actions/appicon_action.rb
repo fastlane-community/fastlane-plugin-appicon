@@ -17,7 +17,7 @@ module Fastlane
       def self.run(params)
         fname = params[:appicon_image_file]
         basename = File.basename(fname, File.extname(fname))
-        basepath = Pathname.new("#{params[:appicon_path]}/AppIcon.appiconset")
+        basepath = Pathname.new("#{params[:appicon_path]}/#{params[:appicon_name]}")
 
         require 'mini_magick'
         image = MiniMagick::Image.open(fname)
@@ -89,6 +89,12 @@ module Fastlane
                                   env_name: "APPICON_PATH",
                              default_value: 'Assets.xcassets',
                                description: "Path to the Asset catalogue for the generated iconset",
+                                  optional: true,
+                                      type: String),
+          FastlaneCore::ConfigItem.new(key: :appicon_name,
+                                  env_name: "APPICON_NAME",
+                             default_value: 'AppIcon.appiconset',
+                               description: "Name of the appiconset inside the asset catalogue",
                                   optional: true,
                                       type: String)
         ]
