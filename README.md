@@ -43,7 +43,7 @@ end
 
 To run both the tests, and code style validation, run
 
-````
+```
 rake
 ```
 
