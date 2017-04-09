@@ -32,6 +32,16 @@ end
 
 # or
 
+lane :test2 do
+  # `appicon_image_file` defaults to "fastlane/metadata/app_icon.png"
+  appicon(
+    appicon_devices: [:iphone], 
+    appicon_path: 'wwdcfamily/Images.xcassets' # output path
+  )
+end
+
+# or
+
 lane :android do
   android_appicon(appicon_image_file: 'spec/fixtures/Themoji.png',
     appicon_devices: [:phone, :tablet],
