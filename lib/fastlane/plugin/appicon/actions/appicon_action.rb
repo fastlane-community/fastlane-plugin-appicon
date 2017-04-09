@@ -78,7 +78,8 @@ module Fastlane
                                   env_name: "APPICON_IMAGE_FILE",
                                description: "Path to a square image file, at least 1024x1024",
                                   optional: false,
-                                      type: String),
+                                      type: String,
+                             default_value: Dir["fastlane/metadata/app_icon.png"].last), # that's the default when using fastlane to manage app metadata
           FastlaneCore::ConfigItem.new(key: :appicon_devices,
                                   env_name: "APPICON_DEVICES",
                              default_value: [:iphone],
