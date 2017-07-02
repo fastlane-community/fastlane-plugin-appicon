@@ -15,6 +15,7 @@ module Fastlane
       end
 
       def self.run(params)
+        t1 = Time.now
         fname = params[:appicon_image_file]
         basename = File.basename(fname, File.extname(fname))
         basepath = Pathname.new(File.join(params[:appicon_path], params[:appicon_name]))
@@ -26,29 +27,44 @@ module Fastlane
         UI.user_error!("Minimum height of input image should be 1024") if image.height < 1024
         UI.user_error!("Input image should be square") if image.width != image.height
 
+        # Convert image to png
+        image.format 'png'
+
         FileUtils.mkdir_p(basepath)
 
-        images = []
-
+        all_sizes = []
         params[:appicon_devices].each do |device|
           self.needed_icons[device].each do |scale, sizes|
             sizes.each do |size|
               width, height = size.split('x').map { |v| v.to_f * scale.to_i }
-              filename = "#{basename}-#{width.to_i}x#{height.to_i}.png"
-
-              image = MiniMagick::Image.open(fname)
-              image.format 'png'
-              image.resize "#{width}x#{height}"
-              image.write basepath + filename
-
-              images << {
-                'size' => size,
-                'idiom' => device,
-                'filename' => filename,
+              all_sizes << {
+                'width' => width,
+                'height' => height,
+                'device' => device,
                 'scale' => scale
               }
             end
           end
+        end
+
+        images = []
+
+        # Sort from the largest to the smallest image size
+        all_sizes = all_sizes.sort_by {|value| value['width']} .reverse
+        all_sizes.each do |size|
+          width = size['width']
+          height = size['height']
+          filename = "#{basename}-#{width.to_i}x#{height.to_i}.png"
+
+          image.resize "#{width}x#{height}"
+          image.write basepath + filename
+
+          images << {
+            'size' => size,
+            'idiom' => size['device'],
+            'filename' => filename,
+            'scale' => size['scale']
+          }
         end
 
         contents = {
@@ -62,6 +78,11 @@ module Fastlane
         require 'json'
         File.write(File.join(basepath, 'Contents.json'), JSON.dump(contents))
         UI.success("Successfully stored app icon at '#{basepath}'")
+
+        # beanchmark
+        t2 = Time.now
+        delta = t2 - t1 # in seconds
+        puts delta
       end
 
       def self.description
