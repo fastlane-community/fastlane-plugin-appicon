@@ -11,3 +11,6 @@ fastlane/report.xml
 
 ## Ignore generated asset catalogue
 Assets.xcassets/
+
+## Ignore android generated icon
+app/
