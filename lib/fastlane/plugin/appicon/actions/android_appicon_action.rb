@@ -22,25 +22,22 @@ module Fastlane
         require 'mini_magick'
         image = MiniMagick::Image.open(fname)
 
-        UI.user_error!("Minimum width of input image should be 512") if image.width < 512
-        UI.user_error!("Minimum height of input image should be 512") if image.height < 512
-        UI.user_error!("Input image should be square") if image.width != image.height
+        Helper::AppiconHelper.check_input_image_size(image, 512)
 
-        params[:appicon_devices].each do |device|
-          self.needed_icons[device].each do |scale, sizes|
-            sizes.each do |size|
-              width, height = size.split('x').map { |v| v.to_f }
+        # Convert image to png
+        image.format 'png'
 
-              basepath = Pathname.new("#{params[:appicon_path]}-#{scale}")
-              FileUtils.mkdir_p(basepath)
-              filename = "#{params[:appicon_filename]}.png"
+        icons = Helper::AppiconHelper.get_needed_icons(params[:appicon_devices], self.needed_icons)
+        icons.each do |icon|
+          width = icon['width']
+          height = icon['height']
 
-              image = MiniMagick::Image.open(fname)
-              image.format 'png'
-              image.resize "#{width}x#{height}"
-              image.write basepath + filename
-            end
-          end
+          basepath = Pathname.new("#{params[:appicon_path]}-#{icon['scale']}")
+          FileUtils.mkdir_p(basepath)
+          filename = "#{params[:appicon_filename]}.png"
+
+          image.resize "#{width}x#{height}"
+          image.write basepath + filename
         end
 
         UI.success("Successfully stored launcher icons at '#{params[:appicon_path]}'")

@@ -22,9 +22,7 @@ module Fastlane
         require 'mini_magick'
         image = MiniMagick::Image.open(fname)
 
-        UI.user_error!("Minimum width of input image should be 1024") if image.width < 1024
-        UI.user_error!("Minimum height of input image should be 1024") if image.height < 1024
-        UI.user_error!("Input image should be square") if image.width != image.height
+        Helper::AppiconHelper.check_input_image_size(image, 1024)
 
         # Convert image to png
         image.format 'png'
@@ -32,30 +30,12 @@ module Fastlane
         # Create the base path
         FileUtils.mkdir_p(basepath)
 
-        # Add all needed sizes to the icons pack
-        icons = []
-        params[:appicon_devices].each do |device|
-          self.needed_icons[device].each do |scale, sizes|
-            sizes.each do |size|
-              width, height = size.split('x').map { |v| v.to_f * scale.to_i }
-              icons << {
-                'width' => width,
-                'height' => height,
-                'size' => size,
-                'device' => device,
-                'scale' => scale
-              }
-            end
-          end
-        end
-
         images = []
 
-        # Sort from the largest to the smallest needed icon
-        icons = icons.sort_by {|value| value['width']} .reverse
+        icons = Helper::AppiconHelper.get_needed_icons(params[:appicon_devices], self.needed_icons)
         icons.each do |icon|
-          width = icon['width']
-          height = icon['height']
+          width = icon['width'].to_f * icon['scale'].to_i
+          height = icon['height'].to_f * icon['scale'].to_i
           filename = "#{basename}-#{width.to_i}x#{height.to_i}.png"
 
           # downsize icon
