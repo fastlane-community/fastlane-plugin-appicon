@@ -26,29 +26,48 @@ module Fastlane
         UI.user_error!("Minimum height of input image should be 1024") if image.height < 1024
         UI.user_error!("Input image should be square") if image.width != image.height
 
+        # Convert image to png
+        image.format 'png'
+
+        # Create the base path
         FileUtils.mkdir_p(basepath)
 
-        images = []
-
+        # Add all needed sizes to the icons pack
+        icons = []
         params[:appicon_devices].each do |device|
           self.needed_icons[device].each do |scale, sizes|
             sizes.each do |size|
               width, height = size.split('x').map { |v| v.to_f * scale.to_i }
-              filename = "#{basename}-#{width.to_i}x#{height.to_i}.png"
-
-              image = MiniMagick::Image.open(fname)
-              image.format 'png'
-              image.resize "#{width}x#{height}"
-              image.write basepath + filename
-
-              images << {
+              icons << {
+                'width' => width,
+                'height' => height,
                 'size' => size,
-                'idiom' => device,
-                'filename' => filename,
+                'device' => device,
                 'scale' => scale
               }
             end
           end
+        end
+
+        images = []
+
+        # Sort from the largest to the smallest needed icon
+        icons = icons.sort_by {|value| value['width']} .reverse
+        icons.each do |icon|
+          width = icon['width']
+          height = icon['height']
+          filename = "#{basename}-#{width.to_i}x#{height.to_i}.png"
+
+          # downsize icon
+          image.resize "#{width}x#{height}"
+          image.write basepath + filename
+
+          images << {
+            'size' => icon['size'],
+            'idiom' => icon['device'],
+            'filename' => filename,
+            'scale' => icon['scale']
+          }
         end
 
         contents = {
