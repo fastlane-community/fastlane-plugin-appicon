@@ -15,7 +15,6 @@ module Fastlane
       end
 
       def self.run(params)
-        t1 = Time.now
         fname = params[:appicon_image_file]
         basename = File.basename(fname, File.extname(fname))
         basepath = Pathname.new(File.join(params[:appicon_path], params[:appicon_name]))
@@ -30,16 +29,19 @@ module Fastlane
         # Convert image to png
         image.format 'png'
 
+        # Create the base path
         FileUtils.mkdir_p(basepath)
 
-        all_sizes = []
+        # Add all needed sizes to the icons pack
+        icons = []
         params[:appicon_devices].each do |device|
           self.needed_icons[device].each do |scale, sizes|
             sizes.each do |size|
               width, height = size.split('x').map { |v| v.to_f * scale.to_i }
-              all_sizes << {
+              icons << {
                 'width' => width,
                 'height' => height,
+                'size' => size,
                 'device' => device,
                 'scale' => scale
               }
@@ -49,21 +51,22 @@ module Fastlane
 
         images = []
 
-        # Sort from the largest to the smallest image size
-        all_sizes = all_sizes.sort_by {|value| value['width']} .reverse
-        all_sizes.each do |size|
-          width = size['width']
-          height = size['height']
+        # Sort from the largest to the smallest needed icon
+        icons = icons.sort_by {|value| value['width']} .reverse
+        icons.each do |icon|
+          width = icon['width']
+          height = icon['height']
           filename = "#{basename}-#{width.to_i}x#{height.to_i}.png"
 
+          # downsize icon
           image.resize "#{width}x#{height}"
           image.write basepath + filename
 
           images << {
-            'size' => size,
-            'idiom' => size['device'],
+            'size' => icon['size'],
+            'idiom' => icon['device'],
             'filename' => filename,
-            'scale' => size['scale']
+            'scale' => icon['scale']
           }
         end
 
@@ -78,11 +81,6 @@ module Fastlane
         require 'json'
         File.write(File.join(basepath, 'Contents.json'), JSON.dump(contents))
         UI.success("Successfully stored app icon at '#{basepath}'")
-
-        # beanchmark
-        t2 = Time.now
-        delta = t2 - t1 # in seconds
-        puts delta
       end
 
       def self.description
