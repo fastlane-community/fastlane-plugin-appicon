@@ -32,10 +32,10 @@ module Fastlane
 
         images = []
 
-        icons = Helper::AppiconHelper.get_needed_icons(params[:appicon_devices], self.needed_icons)
+        icons = Helper::AppiconHelper.get_needed_icons(params[:appicon_devices], self.needed_icons, false)
         icons.each do |icon|
-          width = icon['width'].to_f * icon['scale'].to_i
-          height = icon['height'].to_f * icon['scale'].to_i
+          width = icon['width']
+          height = icon['height']
           filename = "#{basename}-#{width.to_i}x#{height.to_i}.png"
 
           # downsize icon

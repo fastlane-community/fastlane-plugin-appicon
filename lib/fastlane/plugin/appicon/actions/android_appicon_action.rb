@@ -27,7 +27,7 @@ module Fastlane
         # Convert image to png
         image.format 'png'
 
-        icons = Helper::AppiconHelper.get_needed_icons(params[:appicon_devices], self.needed_icons)
+        icons = Helper::AppiconHelper.get_needed_icons(params[:appicon_devices], self.needed_icons, true)
         icons.each do |icon|
           width = icon['width']
           height = icon['height']
