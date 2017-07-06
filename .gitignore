@@ -8,6 +8,10 @@ Gemfile.lock
 /rdoc/
 fastlane/README.md
 fastlane/report.xml
+.DS_Store
 
 ## Ignore generated asset catalogue
 Assets.xcassets/
+
+## Ignore android generated icon
+app/
