@@ -1,6 +1,6 @@
 lane :test do
   appicon(appicon_image_file: 'spec/fixtures/Themoji.png',
-    appicon_devices: [:ipad, :iphone, :'ios-marketing'])
+    appicon_devices: [:ipad, :iphone, :ios_marketing])
 end
 
 lane :android do
