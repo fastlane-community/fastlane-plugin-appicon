@@ -43,9 +43,11 @@ end
 # or
 
 lane :android do
-  android_appicon(appicon_image_file: 'spec/fixtures/Themoji.png',
+  android_appicon(
+    appicon_image_file: 'spec/fixtures/Themoji.png',
     appicon_devices: [:phone, :tablet],
-    appicon_path:'app/res/mipmap')
+    appicon_path:'app/res/mipmap'
+  )
 end
 ```
 
