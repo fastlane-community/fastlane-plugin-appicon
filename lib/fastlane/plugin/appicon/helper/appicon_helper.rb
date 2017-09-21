@@ -21,7 +21,7 @@ module Fastlane
                 'width' => width,
                 'height' => height,
                 'size' => size,
-                'device' => device,
+                'device' => device.to_s.gsub('_','-'),
                 'scale' => scale
               }
             end
