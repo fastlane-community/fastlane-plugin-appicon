@@ -43,6 +43,11 @@ module Fastlane
 
           # downsize icon
           image.resize "#{width}x#{height}"
+
+          # Don't write change/created times into the PNG properties
+          # so unchanged files don't have different hashes.
+          image.define("png:exclude-chunks=date,time")
+
           image.write basepath + filename
 
           images << {
