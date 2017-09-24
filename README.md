@@ -27,7 +27,7 @@ Just specify the source image using the `appicon_image_file`. Optionally specify
 ```ruby
 lane :test do
   appicon(appicon_image_file: 'spec/fixtures/Themoji.png',
-             appicon_devices: [:ipad, :iphone, :ios_marketing])
+             appicon_devices: [:ipad, :iphone, :ios_marketing, :watch, :watch_marketing])
 end
 
 # or
