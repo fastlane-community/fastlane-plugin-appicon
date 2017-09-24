@@ -61,7 +61,7 @@ module Fastlane
             'size' => icon['size'],
             'idiom' => icon['device'],
             'filename' => filename,
-            'scale' => icon['scale'],
+            'scale' => icon['scale']
           }
 
           info['role'] = icon['role'] unless icon['role'].nil?
