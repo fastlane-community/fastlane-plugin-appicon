@@ -25,14 +25,18 @@ Check out the [example `Fastfile`](fastlane/Fastfile) to see how to use this plu
 Just specify the source image using the `appicon_image_file`. Optionally specify the devices  using `appicon_devices` and the destination path using `appicon_path`.
 
 ```ruby
-lane :test do
+lane :test1 do
+  appicon(appicon_image_file: 'spec/fixtures/Themoji.png',
+             appicon_devices: [:ipad, :iphone, :ios_marketing])
+end
+
+
+lane :test2 do
   appicon(appicon_image_file: 'spec/fixtures/Themoji.png',
              appicon_devices: [:ipad, :iphone, :ios_marketing, :watch, :watch_marketing])
 end
 
-# or
-
-lane :test2 do
+lane :test3 do
   # `appicon_image_file` defaults to "fastlane/metadata/app_icon.png"
   appicon(
     appicon_devices: [:iphone], 
