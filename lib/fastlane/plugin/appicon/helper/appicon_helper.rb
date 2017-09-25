@@ -12,6 +12,10 @@ module Fastlane
         devices.each do |device|
           needed_icons[device].each do |scale, sizes|
             sizes.each do |size|
+              if size.kind_of?(Array)
+                size, role, subtype = size
+              end
+
               if is_android
                 width, height = size.split('x').map { |v| v.to_f }
               else
@@ -23,8 +27,11 @@ module Fastlane
                 'height' => height,
                 'size' => size,
                 'device' => device.to_s.gsub('_', '-'),
-                'scale' => scale
+                'scale' => scale,
+                'role' => role,
+                'subtype' => subtype
               }
+              
             end
           end
         end
