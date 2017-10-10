@@ -118,7 +118,7 @@ module Fastlane
                                   optional: true,
                                       type: String),
           FastlaneCore::ConfigItem.new(key: :appicon_custom_sizes,
-                               description: "Hash of custom sizes",
+                               description: "Hash of custom sizes - {'path/icon.png' => '256x256'}",
                                   optional: true,
                                       type: Hash)
         ]
