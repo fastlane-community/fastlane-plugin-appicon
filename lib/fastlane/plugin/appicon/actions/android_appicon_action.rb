@@ -18,6 +18,7 @@ module Fastlane
 
       def self.run(params)
         fname = params[:appicon_image_file]
+        custom_sizes = params[:custom_sizes]
 
         require 'mini_magick'
         image = MiniMagick::Image.open(fname)
@@ -39,8 +40,28 @@ module Fastlane
           image.resize "#{width}x#{height}"
           image.write basepath + filename
         end
+        
+        
 
         UI.success("Successfully stored launcher icons at '#{params[:appicon_path]}'")
+      end
+      
+      def self.get_custom_sizes(custom_sizes)
+        custom_sizes.each do |size|
+          if is_android
+            width, height = size.split('x').map { |v| v.to_f }
+          else
+            width, height = size.split('x').map { |v| v.to_f * scale.to_i }
+          end
+
+          icons << {
+            'width' => width,
+            'height' => height,
+            'size' => size,
+            'device' => device,
+            'scale' => scale
+          }
+        end
       end
 
       def self.description
@@ -75,7 +96,11 @@ module Fastlane
                              default_value: 'ic_launcher',
                                description: "The output filename of each image",
                                   optional: true,
-                                      type: String)
+                                      type: String),
+          FastlaneCore::ConfigItem.new(key: :custom_sizes,
+                               description: "Array of custom sizes",
+                                  optional: true,
+                                      type: Array)
         ]
       end
 
