@@ -7,7 +7,7 @@ module Fastlane
         UI.user_error!("Input image should be square") if image.width != image.height
       end
 
-      def self.get_needed_icons(devices, needed_icons, is_android = false)
+      def self.get_needed_icons(devices, needed_icons, is_android = false, custom_sizes = {})
         icons = []
         devices.each do |device|
           needed_icons[device].each do |scale, sizes|
@@ -35,6 +35,21 @@ module Fastlane
             end
           end
         end
+        
+        # Add custom icon sizes (probably for notifications) 
+        custom_sizes.each do |path, size|
+          path = path.to_s
+          width, height = size.split('x').map { |v| v.to_f }
+
+          icons << {
+            'width' => width,
+            'height' => height,
+            'size' => size,
+            'basepath' => File.dirname(path),
+            'filename' => File.basename(path)
+          }
+        end
+        
         # Sort from the largest to the smallest needed icon
         icons = icons.sort_by {|value| value['width']} .reverse
       end
