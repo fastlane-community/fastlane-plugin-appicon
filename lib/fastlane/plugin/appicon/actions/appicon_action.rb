@@ -37,6 +37,11 @@ module Fastlane
         # Convert image to png
         image.format 'png'
 
+        # remove alpha channel
+        if params[:remove_alpha]
+          image.alpha 'remove'
+        end
+
         # Create the base path
         FileUtils.mkdir_p(basepath)
 
@@ -116,7 +121,13 @@ module Fastlane
                              default_value: 'AppIcon.appiconset',
                                description: "Name of the appiconset inside the asset catalogue",
                                   optional: true,
-                                      type: String)
+                                      type: String),
+          FastlaneCore::ConfigItem.new(key: :remove_alpha,
+                                  env_name: "REMOVE_ALPHA",
+                             default_value: false,
+                               description: "Remove the alpha channel from generated PNG",
+                                  optional: true,
+                                      type: Boolean)
         ]
       end
 
