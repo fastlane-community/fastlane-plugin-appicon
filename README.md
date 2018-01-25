@@ -49,8 +49,14 @@ end
 lane :android do
   android_appicon(
     appicon_image_file: 'spec/fixtures/Themoji.png',
-    appicon_devices: [:phone, :tablet],
-    appicon_path:'app/res/mipmap'
+    appicon_icon_types: [:launcher],
+    appicon_path: 'app/res/mipmap'
+  )
+  android_appicon(
+    appicon_image_file: 'spec/fixtures/ThemojiNotification.png',
+    appicon_icon_types: [:notification],
+    appicon_path: 'app/res/drawable',
+    appicon_name: 'ic_notification'
   )
 end
 ```
