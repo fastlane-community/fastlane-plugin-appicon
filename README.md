@@ -12,6 +12,12 @@ This project is a [fastlane](https://github.com/fastlane/fastlane) plugin. To ge
 fastlane add_plugin appicon
 ```
 
+Please note that this plugin uses the GraphicsMagick library. If you do not have it, you can install it via Homebrew:
+
+```
+brew install graphicsmagick
+```
+
 ## About appicon
 
 Generate required icon sizes and iconset from a master application icon.
