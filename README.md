@@ -62,7 +62,7 @@ lane :android do
     appicon_image_file: 'spec/fixtures/ThemojiNotification.png',
     appicon_icon_types: [:notification],
     appicon_path: 'app/res/drawable',
-    appicon_name: 'ic_notification'
+    appicon_filename: 'ic_notification'
   )
 end
 ```
