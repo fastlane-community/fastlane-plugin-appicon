@@ -34,7 +34,10 @@ We recommend storing the full-size picture at `fastlane/metadata/app_icon.png` s
 
 ```ruby
 lane :basic do
-  appicon(appicon_devices: [:ipad, :iphone, :ios_marketing])
+  appicon(
+    appicon_devices: [:ipad, :iphone, :ios_marketing],
+    appicon_path: "MajorKey/Assets.xcassets"
+  )
 end
 
 lane :test1 do
