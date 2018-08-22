@@ -28,9 +28,15 @@ Since many apps use a single 1024x1024 icon to produce all the required sizes fr
 
 Check out the [example `Fastfile`](fastlane/Fastfile) to see how to use this plugin. Try it by cloning the repo, running `fastlane install_plugins` and `bundle exec fastlane test`.
 
-Just specify the source image using the `appicon_image_file`. Optionally specify the devices  using `appicon_devices` and the destination path using `appicon_path`.
+Just specify the source image using the `appicon_image_file`. Optionally specify the devices using `appicon_devices` and the destination path using `appicon_path`.
+
+We recommend storing the full-size picture at `fastlane/metadata/app_icon.png` so it can be picked up by _deliver_, as well as this plugin
 
 ```ruby
+lane :basic do
+  appicon(appicon_devices: [:ipad, :iphone, :ios_marketing])
+end
+
 lane :test1 do
   appicon(appicon_image_file: 'spec/fixtures/Themoji.png',
              appicon_devices: [:ipad, :iphone, :ios_marketing])
