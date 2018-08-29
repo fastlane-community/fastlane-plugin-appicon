@@ -53,7 +53,6 @@ module Fastlane
           image.write basepath + filename
 
           if params[:generate_rounded]
-            UI.important("Will generate rounded icons")
             rounded_image = MiniMagick::Image.open(fname)
             rounded_image.format 'png'
             rounded_image.resize "#{width}x#{height}"
