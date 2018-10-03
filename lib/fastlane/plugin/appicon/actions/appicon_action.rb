@@ -15,8 +15,19 @@ module Fastlane
             '1x' => ['1024x1024']
           },
           :watch => {
-            '2x' => [['24x24', 'notificationCenter', '38mm'], ['27.5x27.5', 'notificationCenter', '42mm'], ['29x29', 'companionSettings'], ['40x40', 'appLauncher', '38mm'], ['86x86', 'quickLook', '38mm'], ['98x98', 'quickLook', '42mm']],
-            '3x' => [['29x29', 'companionSettings']]
+            '2x' => [
+              ['24x24', 'notificationCenter', '38mm'],
+              ['27.5x27.5', 'notificationCenter', '42mm'],
+              ['29x29', 'companionSettings'],
+              ['40x40', 'appLauncher', '38mm'],
+              ['44x44', 'appLauncher', '40mm'],
+              ['50x50', 'appLauncher', '44mm'],
+              ['86x86', 'quickLook', '38mm'],
+              ['98x98', 'quickLook', '42mm'],
+              ['108x108', 'quickLook', '44mm']],
+            '3x' => [
+              ['29x29', 'companionSettings'],
+            ]
           },
           :watch_marketing => {
             '1x' => ['1024x1024']
