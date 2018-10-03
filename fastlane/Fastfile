@@ -1,10 +1,10 @@
 lane :test do
   appicon(appicon_image_file: 'spec/fixtures/Themoji.png',
-    appicon_devices: %i(ipad iphone ios_marketing watch watch_marketing))
+    appicon_devices: %i[ipad iphone ios_marketing watch watch_marketing])
 end
 
 lane :android do
   android_appicon(appicon_image_file: 'spec/fixtures/Themoji.png',
-    appicon_devices: %i(phone tablet),
+    appicon_devices: %i[phone tablet],
     appicon_path: 'app/res/mipmap')
 end
