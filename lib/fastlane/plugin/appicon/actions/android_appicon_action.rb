@@ -37,8 +37,8 @@ module Fastlane
         require 'mini_magick'
         image = MiniMagick::Image.open(fname)
 
-        if params[:appicon_icon_types] != nil
-          if params[:appicon_icon_types].any? { |type| type != 'launch_image' }
+        params[:appicon_icon_types].each do |type|
+          if type.to_s != 'launch_image' 
             Helper::AppiconHelper.check_input_image_size(image, 512)
           end
         end
@@ -61,7 +61,7 @@ module Fastlane
           end
           FileUtils.mkdir_p(basepath)
 
-          image.resize "#{width}x#{height}"
+          image.resize "#{width}x#{height}\!"
           image.write basepath + filename
         end
 
