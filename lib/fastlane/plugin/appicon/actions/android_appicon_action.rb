@@ -37,7 +37,9 @@ module Fastlane
         require 'mini_magick'
         image = MiniMagick::Image.open(fname)
 
-        Helper::AppiconHelper.check_input_image_size(image, 512)
+        if params[:appicon_icon_types] != 'launch_image'
+          Helper::AppiconHelper.check_input_image_size(image, 512)
+        end
 
         # Convert image to png
         image.format 'png'
