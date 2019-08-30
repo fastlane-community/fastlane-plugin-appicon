@@ -18,6 +18,14 @@ module Fastlane
             :xhdpi => ['48x48'],
             :xxhdpi => ['72x72'],
             :xxxhdpi => ['96x96'],
+          },
+          launch_image: {
+            :ldpi => ['200x320'],
+            :mdpi => ['320x480'],
+            :hdpi => ['480x800'],
+            :xhdpi => ['720x1280'],
+            :xxhdpi => ['960x1600'],
+            :xxxhdpi => ['1280x1920'],
           }
         }
       end
