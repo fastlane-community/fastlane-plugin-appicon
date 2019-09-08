@@ -1,8 +1,16 @@
+require 'json'
+require 'mini_magick'
+
 module Fastlane
   module Actions
     class AppiconAction < Action
       def self.needed_icons
         {
+          universal: {
+            '1x' => ['2732x2732'],
+            '2x' => ['2732x2732'],
+            '3x' => ['2732x2732']
+          },
           iphone: {
             '2x' => ['20x20', '29x29', '40x40', '60x60'],
             '3x' => ['20x20', '29x29', '40x40', '60x60']
@@ -39,7 +47,6 @@ module Fastlane
         basename = File.basename(fname, File.extname(fname))
         basepath = Pathname.new(File.join(params[:appicon_path], params[:appicon_name]))
 
-        require 'mini_magick'
         image = MiniMagick::Image.open(fname)
 
         Helper::AppiconHelper.check_input_image_size(image, 1024)
@@ -52,7 +59,8 @@ module Fastlane
           image.alpha 'remove'
         end
 
-        # Create the base path
+        # Recreate the base path
+        FileUtils.rm_rf(basepath)
         FileUtils.mkdir_p(basepath)
 
         images = []
@@ -61,7 +69,11 @@ module Fastlane
         icons.each do |icon|
           width = icon['width']
           height = icon['height']
-          filename = "#{basename}-#{width.to_i}x#{height.to_i}.png"
+          filename = basename
+          unless icon['device'] == 'universal'
+            filename += "-#{width.to_i}x#{height.to_i}"
+          end
+          filename += ".png"
 
           # downsize icon
           image.resize "#{width}x#{height}"
@@ -73,11 +85,14 @@ module Fastlane
           image.write basepath + filename
 
           info = {
-            'size' => icon['size'],
             'idiom' => icon['device'],
             'filename' => filename,
             'scale' => icon['scale']
           }
+
+          unless icon['device'] == 'universal'
+            info['size'] = icon['size']
+          end
 
           info['role'] = icon['role'] unless icon['role'].nil?
           info['subtype'] = icon['subtype'] unless icon['subtype'].nil?
@@ -93,7 +108,6 @@ module Fastlane
           }
         }
 
-        require 'json'
         File.write(File.join(basepath, 'Contents.json'), JSON.pretty_generate(contents))
         UI.success("Successfully stored app icon at '#{basepath}'")
       end
