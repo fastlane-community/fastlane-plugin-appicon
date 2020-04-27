@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = %q{boris@icculus.org}
 
   spec.summary       = %q{Generate required icon sizes and iconset from a master application icon.}
-  spec.homepage      = "https://github.com/KrauseFx/fastlane-plugin-appicon"
+  spec.homepage      = "https://github.com/fastlane-community/fastlane-plugin-appicon"
   spec.license       = "MIT"
 
   spec.files         = Dir["lib/**/*"] + %w(README.md LICENSE)
