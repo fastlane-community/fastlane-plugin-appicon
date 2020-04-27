@@ -25,7 +25,7 @@ module Fastlane
                       ['86x86', 'quickLook', '38mm'],
                       ['98x98', 'quickLook', '42mm'],
                       ['108x108', 'quickLook', '44mm']
-                    ] ,
+                    ],
             '3x' => [['29x29', 'companionSettings']]
           },
           :watch_marketing => {

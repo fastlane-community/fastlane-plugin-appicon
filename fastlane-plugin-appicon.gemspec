@@ -10,14 +10,14 @@ Gem::Specification.new do |spec|
   spec.email         = %q{boris@icculus.org}
 
   spec.summary       = %q{Generate required icon sizes and iconset from a master application icon.}
-  spec.homepage      = "https://github.com/KrauseFx/fastlane-plugin-appicon"
+  spec.homepage      = "https://github.com/fastlane-community/fastlane-plugin-appicon"
   spec.license       = "MIT"
 
   spec.files         = Dir["lib/**/*"] + %w(README.md LICENSE)
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'mini_magick', '~> 4.5.1'
+  spec.add_dependency 'mini_magick', '>= 4.9.4', '< 5.0.0'
   spec.add_dependency 'json'
 
   spec.add_development_dependency 'pry'
