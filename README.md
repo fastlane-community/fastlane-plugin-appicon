@@ -71,7 +71,8 @@ lane :android do
     appicon_image_file: 'spec/fixtures/ThemojiNotification.png',
     appicon_icon_types: [:notification],
     appicon_path: 'app/res/drawable',
-    appicon_filename: 'ic_notification'
+    appicon_filename: 'ic_notification',
+    generate_rounded: false
   )
   android_appicon(
     appicon_image_file: 'spec/fixtures/splash_base_image.png',

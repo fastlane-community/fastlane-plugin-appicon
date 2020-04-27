@@ -19,3 +19,12 @@ lane :android_rounded do
     generate_rounded: true
   )
 end
+
+lane :android_splash do
+  android_appicon(
+    appicon_image_file: 'spec/fixtures/ThemojiSplash.png',
+    appicon_icon_types: [:splash_port, :splash_land],
+    appicon_path: 'app/res/drawable',
+    appicon_filename: 'splash'
+  ) 
+end
