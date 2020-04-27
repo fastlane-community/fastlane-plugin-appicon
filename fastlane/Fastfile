@@ -1,7 +1,17 @@
-lane :test do
+lane :ios do
   appicon(
     appicon_image_file: 'spec/fixtures/Themoji.png',
-    appicon_devices: [:ipad, :iphone, :ios_marketing, :watch, :watch_marketing]
+    appicon_devices: [:ipad, :iphone, :ios_marketing, :watch, :watch_marketing],
+    appicon_path: 'app'
+  )
+end
+
+lane :ios_splash do
+  appicon(
+    appicon_image_file: 'spec/fixtures/ThemojiSplash.png',
+    appicon_devices: [:universal],
+    appicon_path: 'app',
+    appicon_name: 'Splash.imageset'
   )
 end
 
