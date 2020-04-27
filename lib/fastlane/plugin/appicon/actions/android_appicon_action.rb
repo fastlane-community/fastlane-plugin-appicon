@@ -51,9 +51,42 @@ module Fastlane
 
           image.resize "#{width}x#{height}"
           image.write basepath + filename
+
+          if params[:generate_rounded]
+            rounded_image = MiniMagick::Image.open(fname)
+            rounded_image.format 'png'
+            rounded_image.resize "#{width}x#{height}"
+            rounded_image = round(rounded_image)
+            rounded_image.write basepath + filename.gsub('.png', '_round.png')
+          end
         end
 
         UI.success("Successfully stored launcher icons at '#{params[:appicon_path]}'")
+      end
+
+      def self.round(img)
+        require 'mini_magick'
+        img.format 'png'
+
+        width = img[:width]-2
+        radius = width/2
+
+        mask = ::MiniMagick::Image.open img.path
+        mask.format 'png'
+
+        mask.combine_options do |m|
+          m.alpha 'transparent'
+          m.background 'none'
+          m.fill 'white'
+          m.draw 'roundrectangle 1,1,%s,%s,%s,%s' % [width, width, radius, radius]
+        end
+
+        masked = img.composite(mask, 'png') do |i|
+          i.alpha "set"
+          i.compose 'DstIn'
+        end
+
+        return masked
       end
 
       def self.get_custom_sizes(image, custom_sizes)
@@ -97,7 +130,11 @@ module Fastlane
                                description: "Hash of custom sizes - {'path/icon.png' => '256x256'}",
                              default_value: {},
                                   optional: true,
-                                      type: Hash)
+                                      type: Hash),
+          FastlaneCore::ConfigItem.new(key: :generate_rounded,
+                               description: "Generate round icons?",
+                             default_value: false,
+                                      type: Boolean)
         ]
       end
 
