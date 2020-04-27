@@ -8,14 +8,16 @@ end
 lane :android do
   android_appicon(
     appicon_image_file: 'spec/fixtures/Themoji.png',
-    appicon_path: 'app/res/mipmap'
+    appicon_path: 'app/res/mipmap',
+    generate_rounded: true
   )
 end
 
-lane :android_rounded do
+lane :android_splash do
   android_appicon(
-    appicon_image_file: 'spec/fixtures/Themoji.png',
-    appicon_path: 'app_rounded/res/mipmap',
-    generate_rounded: true
-  )
+    appicon_image_file: 'spec/fixtures/ThemojiSplash.png',
+    appicon_icon_types: [:splash_port, :splash_land],
+    appicon_path: 'app/res/drawable',
+    appicon_filename: 'splash'
+  ) 
 end

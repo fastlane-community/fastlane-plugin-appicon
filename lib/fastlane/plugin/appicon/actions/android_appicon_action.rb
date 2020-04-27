@@ -1,6 +1,9 @@
+require 'mini_magick'
+
 module Fastlane
   module Actions
     class AndroidAppiconAction < Action
+
       def self.needed_icons
         {
           launcher: {
@@ -18,6 +21,22 @@ module Fastlane
             :xhdpi => ['48x48'],
             :xxhdpi => ['72x72'],
             :xxxhdpi => ['96x96'],
+          },
+          splash_land: {
+            'land-ldpi' => ['320x200'],
+            'land-mdpi' => ['480x320'],
+            'land-hdpi' => ['800x480'],
+            'land-xhdpi' => ['1280x720'],
+            'land-xxhdpi' => ['1600x960'],
+            'land-xxxhdpi' => ['1920x1280']
+          },
+          splash_port: {
+            'port-ldpi' => ['200x320'],
+            'port-mdpi' => ['320x480'],
+            'port-hdpi' => ['480x800'],
+            'port-xhdpi' => ['720x1280'],
+            'port-xxhdpi' => ['960x1600'],
+            'port-xxxhdpi' => ['1280x1920']
           }
         }
       end
@@ -26,18 +45,11 @@ module Fastlane
         fname = params[:appicon_image_file]
         custom_sizes = params[:appicon_custom_sizes]
 
-        require 'mini_magick'
-        image = MiniMagick::Image.open(fname)
-
-        Helper::AppiconHelper.check_input_image_size(image, 512)
-
-        # Convert image to png
-        image.format 'png'
-
         icons = Helper::AppiconHelper.get_needed_icons(params[:appicon_icon_types], self.needed_icons, true, custom_sizes)
         icons.each do |icon|
-          width = icon['width']
-          height = icon['height']
+          image = MiniMagick::Image.open(fname)
+
+          Helper::AppiconHelper.check_input_image_size(image, 1024)
 
           # Custom icons will have basepath and filename already defined
           if icon.has_key?('basepath') && icon.has_key?('filename')
@@ -47,10 +59,33 @@ module Fastlane
             basepath = Pathname.new("#{params[:appicon_path]}-#{icon['scale']}")
             filename = "#{params[:appicon_filename]}.png"
           end
-          FileUtils.mkdir_p(basepath)
 
-          image.resize "#{width}x#{height}"
+          width_height = [icon['width'], icon['height']].map(&:to_i)
+          width, height = width_height
+          max = width_height.max
+
+          image.format 'png'
+          image.resize "#{max}x#{max}"
+
+          unless width == height
+            offset =
+            if width > height
+              "+0+#{(width - height) / 2}"
+            elsif height > width
+              "+#{(height - width) / 2}+0"
+            end
+
+            image.crop "#{icon['size']}#{offset}"
+          end
+
+          FileUtils.mkdir_p(basepath)
           image.write basepath + filename
+
+          if basepath.to_s.match("port-")
+            default_portrait_path = basepath.to_s.gsub("port-","")
+            FileUtils.mkdir_p(default_portrait_path)
+            image.write default_portrait_path + '/' + filename
+          end
 
           if params[:generate_rounded]
             rounded_image = MiniMagick::Image.open(fname)

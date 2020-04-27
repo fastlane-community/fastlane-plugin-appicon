@@ -54,7 +54,7 @@ end
 lane :test3 do
   # `appicon_image_file` defaults to "fastlane/metadata/app_icon.png"
   appicon(
-    appicon_devices: [:iphone], 
+    appicon_devices: [:iphone],
     appicon_path: 'wwdcfamily/Images.xcassets' # output path
   )
 end
@@ -71,7 +71,14 @@ lane :android do
     appicon_image_file: 'spec/fixtures/ThemojiNotification.png',
     appicon_icon_types: [:notification],
     appicon_path: 'app/res/drawable',
-    appicon_filename: 'ic_notification'
+    appicon_filename: 'ic_notification',
+    generate_rounded: true
+  )
+  android_appicon(
+    appicon_image_file: 'spec/fixtures/splash_base_image.png',
+    appicon_icon_types: [:splash_port, :splash_land],
+    appicon_path: 'app/res/drawable',
+    appicon_filename: 'splash'
   )
 end
 ```
