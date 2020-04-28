@@ -59,6 +59,15 @@ lane :test3 do
   )
 end
 
+lane :splash_screen do
+  appicon(
+    appicon_image_file: 'spec/fixtures/splash_screen.png',
+    appicon_devices: [:universal],
+    appicon_path: "ios/App/App/Assets.xcassets",
+    appicon_name: 'Splash.imageset'
+  )
+end
+
 # or
 
 lane :android do

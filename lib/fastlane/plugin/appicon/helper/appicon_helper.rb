@@ -19,7 +19,8 @@ module Fastlane
               if is_android
                 width, height = size.split('x').map { |v| v.to_f }
               else
-                width, height = size.split('x').map { |v| v.to_f * scale.to_i }
+                multiple = device.match(/universal/) ? 1 : scale.to_i
+                width, height = size.split('x').map { |v| v.to_f * multiple }
               end
 
               icons << {
@@ -31,12 +32,12 @@ module Fastlane
                 'role' => role,
                 'subtype' => subtype
               }
-              
+
             end
           end
         end
-        
-        # Add custom icon sizes (probably for notifications) 
+
+        # Add custom icon sizes (probably for notifications)
         custom_sizes.each do |path, size|
           path = path.to_s
           width, height = size.split('x').map { |v| v.to_f }
@@ -49,7 +50,7 @@ module Fastlane
             'filename' => File.basename(path)
           }
         end
-        
+
         # Sort from the largest to the smallest needed icon
         icons = icons.sort_by {|value| value['width']} .reverse
       end
