@@ -12,10 +12,10 @@ This project is a [fastlane](https://github.com/fastlane/fastlane) plugin. To ge
 fastlane add_plugin appicon
 ```
 
-Please note that this plugin uses the GraphicsMagick library. If you do not have it, you can install it via Homebrew:
+Please note that this plugin uses the ImageMagick library. If you do not have it, you can install it via Homebrew:
 
 ```
-brew install graphicsmagick
+brew install ImageMagick
 ```
 
 ## About appicon
@@ -115,7 +115,7 @@ If you have trouble using plugins, check out the [Plugins Troubleshooting](https
 
 ## Using `fastlane` Plugins
 
-For more information about how the `fastlane` plugin system works, check out the [Plugins documentation](https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Plugins.md).
+For more information about how the `fastlane` plugin system works, check out the [Plugins documentation](https://docs.fastlane.tools/plugins/create-plugin/).
 
 ## About `fastlane`
 
