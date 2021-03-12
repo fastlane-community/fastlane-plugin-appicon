@@ -47,6 +47,11 @@ module Fastlane
         basename = File.basename(fname, File.extname(fname))
         basepath = Pathname.new(File.join(params[:appicon_path], params[:appicon_name]))
 
+        MiniMagick.configure do |config|
+          config.cli = params[:use_imagemagick] ? :imagemagick : :graphicsmagick
+          config.timeout = 5
+        end
+
         image = MiniMagick::Image.open(fname)
 
         Helper::AppiconHelper.check_input_image_size(image, 1024)
@@ -150,6 +155,11 @@ module Fastlane
                                   env_name: "REMOVE_ALPHA",
                              default_value: false,
                                description: "Remove the alpha channel from generated PNG",
+                                  optional: true,
+                                      type: Boolean),
+          FastlaneCore::ConfigItem.new(key: :use_imagemagick,
+                               description: "Use imagemagick as cli instead of graphicsmagic?",
+                             default_value: false,
                                   optional: true,
                                       type: Boolean)
         ]
