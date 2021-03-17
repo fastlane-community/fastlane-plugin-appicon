@@ -43,10 +43,7 @@ module Fastlane
 
       def self.run(params)
 
-        MiniMagick.configure do |config|
-          config.cli = params[:use_imagemagick] ? :imagemagick : :graphicsmagick
-          config.timeout = 5
-        end
+        Helper::AppiconHelper.set_cli(params[:minimagick_cli])
 
         fname = params[:appicon_image_file]
         custom_sizes = params[:appicon_custom_sizes]
@@ -176,11 +173,11 @@ module Fastlane
                                description: "Generate round icons?",
                              default_value: false,
                                       type: Boolean),
-          FastlaneCore::ConfigItem.new(key: :use_imagemagick,
-                               description: "Use imagemagick as cli instead of graphicsmagic?",
-                             default_value: false,
+          FastlaneCore::ConfigItem.new(key: :minimagick_cli,
+                               description: "Set minimagick cli, defaults to graphicsmagick",
+                             default_value: "graphicsmagick",
                                   optional: true,
-                                      type: Boolean)
+                                      type: String)
         ]
       end
 
