@@ -13,17 +13,17 @@ fastlane add_plugin appicon
 ```
 
 
-Please note that this plugin uses either GraphicsMagick or ImageMagick library. If you do not have either, you can install it via Homebrew:
+Please note that this plugin uses [minimagick](https://github.com/minimagick/minimagick), which requires either GraphicsMagick or ImageMagick library. If you have neither, you can install either via Homebrew:
 
 
 ```
-brew install GraphicsMagick
+brew install graphicsmagick
 ```
 or
 ```
-brew install ImageMagick
+brew install imagemagick
 ```
-The default cli for `minimagic` is set to `GraphicsMagick`, if you want to use `ImageMagick` instead, set the `minimagick_cli` option to `imagemagick` or set it to `auto` so `minimagick` will choose what's available.
+The default cli for the `mini_magic` gem is set to `GraphicsMagick`. If you want to use `ImageMagick` instead, set the `minimagick_cli` option in to `imagemagick` or set it to `auto` so `minimagick` will choose what's available.
 ## About appicon
 
 Generate required icon sizes and iconset from a master application icon.
