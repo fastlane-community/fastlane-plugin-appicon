@@ -61,6 +61,11 @@ lane :test3 do
   )
 end
 
+lane :test4 do
+  appicon(appicon_image_file: 'spec/fixtures/Themoji.png',
+             appicon_devices: [:macos])
+end
+
 lane :splash_screen do
   appicon(
     appicon_image_file: 'spec/fixtures/splash_screen.png',
