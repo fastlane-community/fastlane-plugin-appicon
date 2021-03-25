@@ -17,6 +17,24 @@ lane :ios_splash do
   )
 end
 
+lane :ios_messages_extension do
+  appicon(
+    appicon_image_file: 'spec/fixtures/ThemojiSplash.png',
+    appicon_devices: [:iphone, :ipad, :ios_marketing, :messages],
+    appicon_path: 'app/iMessageStickers/Stickers.xcassets',
+    messages_extension: true
+  )
+end
+
+lane :macos do
+  appicon(
+    appicon_image_file: 'spec/fixtures/ThemojiSplash.png',
+    appicon_devices: [:macos],
+    appicon_path: 'app',
+    appicon_name: 'Mac.appiconset'
+  )
+end
+
 lane :android do
   android_appicon(
     appicon_image_file: 'spec/fixtures/Themoji.png',

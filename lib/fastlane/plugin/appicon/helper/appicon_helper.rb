@@ -3,10 +3,10 @@ require 'mini_magick'
 module Fastlane
   module Helper
     class AppiconHelper
-      def self.check_input_image_size(image, size)
-        UI.user_error!("Minimum width of input image should be #{size}") if image.width < size
-        UI.user_error!("Minimum height of input image should be #{size}") if image.height < size
-        UI.user_error!("Input image should be square") if image.width != image.height
+      def self.check_input_image_size(image, width, height)
+        UI.user_error!("Minimum width of input image should be #{width}") if image.width < width
+        UI.user_error!("Minimum height of input image should be #{height}") if image.height < height
+        UI.user_error!("Input image should be square") if image.width / image.height != width / height
       end
 
       def self.set_cli(minimagick_cli)
