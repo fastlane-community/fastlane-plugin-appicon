@@ -32,7 +32,7 @@ Just specify the source image using the `appicon_image_file`. Optionally specify
 
 We recommend storing the full-size picture at `fastlane/metadata/app_icon.png` so it can be picked up by _deliver_, as well as this plugin.
 
-If you want to use this plugin to generate a app icon for Messages(sticker) extension, set `messages_extension` to true and add `messages` to the `appicon_devices`.
+If you want to use this plugin to generate a app icon for Messages(sticker) extension, set `messages_extension` to `true` and add `messages` to the `appicon_devices`.
 
 ```ruby
 lane :basic do

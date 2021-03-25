@@ -49,7 +49,7 @@ module Fastlane
         icons.each do |icon|
           image = MiniMagick::Image.open(fname)
 
-          Helper::AppiconHelper.check_input_image_size(image, 1024)
+          Helper::AppiconHelper.check_input_image_size(image, 1024, 1024)
 
           # Custom icons will have basepath and filename already defined
           if icon.has_key?('basepath') && icon.has_key?('filename')

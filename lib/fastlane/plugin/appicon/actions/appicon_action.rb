@@ -64,6 +64,7 @@ module Fastlane
       def self.run(params)
         fname = params[:appicon_image_file]
         basename = File.basename(fname, File.extname(fname))
+
         is_messages_extension = params[:messages_extension]
         basepath = Pathname.new(File.join(params[:appicon_path], is_messages_extension ? params[:appicon_messages_name] : params[:appicon_name]))
         
@@ -100,6 +101,7 @@ module Fastlane
           filename += ".png"
 
           # downsize icon
+          # "!" resizes to exact size (needed for messages extension)
           image.resize "#{width}x#{height}!"
 
           # Don't write change/created times into the PNG properties
@@ -120,8 +122,8 @@ module Fastlane
             info['platform'] = 'ios'
           end
 
-          # if device is ios-marketing but we are generating messages extension app, set the idiom correctly
-          if icon['device'] == 'ios-marketing' && is_messages_extension
+          # if device is ios_marketing but we are generating messages extension app, set the idiom correctly
+          if icon['device'] == 'ios_marketing' && is_messages_extension
             info['platform'] = 'ios'
           end
           
@@ -195,7 +197,7 @@ module Fastlane
                                   optional: true,
                                       type: Boolean),
           FastlaneCore::ConfigItem.new(key: :messages_extension,
-                                  env_name: "APPICON_MESSAGES",
+                                  env_name: "APPICON_MESSAGES_EXTENSION",
                              default_value: false,
                                description: "App icon is generated for Messages extension",
                                   optional: true,
