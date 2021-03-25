@@ -30,7 +30,9 @@ Check out the [example `Fastfile`](fastlane/Fastfile) to see how to use this plu
 
 Just specify the source image using the `appicon_image_file`. Optionally specify the devices using `appicon_devices` and the destination path using `appicon_path`.
 
-We recommend storing the full-size picture at `fastlane/metadata/app_icon.png` so it can be picked up by _deliver_, as well as this plugin
+We recommend storing the full-size picture at `fastlane/metadata/app_icon.png` so it can be picked up by _deliver_, as well as this plugin.
+
+If you want to use this plugin to generate a app icon for Messages(sticker) extension, set `messages_extension` to `true` and add `messages` to the `appicon_devices`.
 
 ```ruby
 lane :basic do
@@ -65,6 +67,15 @@ lane :splash_screen do
     appicon_devices: [:universal],
     appicon_path: "ios/App/App/Assets.xcassets",
     appicon_name: 'Splash.imageset'
+  )
+end
+
+lane :messages_extension do
+  appicon(
+    appicon_image_file: "fastlane/metadata/iMessageAppIcon.png",
+    appicon_devices: [:iphone, :ipad, :ios_marketing, :messages],
+    appicon_path: 'iMessageStickers/Stickers.xcassets',
+    messages_extension: true
   )
 end
 
