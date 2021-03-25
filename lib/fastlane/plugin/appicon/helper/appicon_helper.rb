@@ -12,12 +12,12 @@ module Fastlane
       def self.set_cli(minimagick_cli)
         MiniMagick.configure do |config|
           case minimagick_cli
-          when "auto"
-            config.cli = MiniMagick.cli()
           when "graphicsmagick"
           config.cli = :graphicsmagick
           when "imagemagick"
             config.cli = :imagemagick
+          else
+            config.cli = MiniMagick.cli()
           end
           config.timeout = 5
         end

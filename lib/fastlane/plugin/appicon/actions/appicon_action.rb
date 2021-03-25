@@ -209,10 +209,14 @@ module Fastlane
                                   optional: true,
                                       type: Boolean),
           FastlaneCore::ConfigItem.new(key: :minimagick_cli,
-                               description: "Set minimagick cli, defaults to graphicsmagick",
-                             default_value: "graphicsmagick",
+                                  env_name: "APPICON_MINIMAGICK_CLI",
+                               description: "Set MiniMagick CLI (auto picked by default). Values are: graphicsmagick, imagemagick",
                                   optional: true,
-                                      type: String)
+                                      type: String,
+                              verify_block: proc do |value|
+                                        av = %w(graphicsmagick imagemagick)
+                                        UI.user_error!("Unsupported minimagick cli '#{value}', must be: #{av}") unless av.include?(value)
+                                      end)
         ]
       end
 
