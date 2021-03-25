@@ -12,11 +12,19 @@ This project is a [fastlane](https://github.com/fastlane/fastlane) plugin. To ge
 fastlane add_plugin appicon
 ```
 
-Please note that this plugin uses the GraphicsMagick library. If you do not have it, you can install it via Homebrew:
+
+Please note that this plugin uses [minimagick](https://github.com/minimagick/minimagick), which requires either GraphicsMagick or ImageMagick library. If you have neither, you can install either via Homebrew:
+
 
 ```
 brew install graphicsmagick
 ```
+or
+```
+brew install imagemagick
+```
+
+The default CLI for the `mini_magick` gem is set to auto pick. It will first try to use `GraphicsMagick` (if you have it installed) otherwise it will use `ImageMagick`. If you want to be explicit about which CLI you use, set the `minimagick_cli` option to `graphicsmagick` or `imagemagick`. Not specifying this option will set `MiniMagick` to use auto which will choose what's available.
 
 ## About appicon
 
@@ -131,7 +139,7 @@ If you have trouble using plugins, check out the [Plugins Troubleshooting](https
 
 ## Using `fastlane` Plugins
 
-For more information about how the `fastlane` plugin system works, check out the [Plugins documentation](https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Plugins.md).
+For more information about how the `fastlane` plugin system works, check out the [Plugins documentation](https://docs.fastlane.tools/plugins/create-plugin/).
 
 ## About `fastlane`
 

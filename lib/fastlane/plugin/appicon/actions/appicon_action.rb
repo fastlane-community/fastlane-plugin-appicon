@@ -69,6 +69,8 @@ module Fastlane
         fname = params[:appicon_image_file]
         basename = File.basename(fname, File.extname(fname))
 
+        Helper::AppiconHelper.set_cli(params[:minimagick_cli])
+
         is_messages_extension = params[:messages_extension]
         basepath = Pathname.new(File.join(params[:appicon_path], is_messages_extension ? params[:appicon_messages_name] : params[:appicon_name]))
         
@@ -205,7 +207,16 @@ module Fastlane
                              default_value: false,
                                description: "App icon is generated for Messages extension",
                                   optional: true,
-                                      type: Boolean)
+                                      type: Boolean),
+          FastlaneCore::ConfigItem.new(key: :minimagick_cli,
+                                  env_name: "APPICON_MINIMAGICK_CLI",
+                               description: "Set MiniMagick CLI (auto picked by default). Values are: graphicsmagick, imagemagick",
+                                  optional: true,
+                                      type: String,
+                              verify_block: proc do |value|
+                                        av = %w(graphicsmagick imagemagick)
+                                        UI.user_error!("Unsupported minimagick cli '#{value}', must be: #{av}") unless av.include?(value)
+                                      end)
         ]
       end
 

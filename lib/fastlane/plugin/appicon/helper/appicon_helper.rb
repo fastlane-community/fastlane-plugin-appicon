@@ -1,3 +1,5 @@
+require 'mini_magick'
+
 module Fastlane
   module Helper
     class AppiconHelper
@@ -5,6 +7,20 @@ module Fastlane
         UI.user_error!("Minimum width of input image should be #{width}") if image.width < width
         UI.user_error!("Minimum height of input image should be #{height}") if image.height < height
         UI.user_error!("Input image should be square") if image.width / image.height != width / height
+      end
+
+      def self.set_cli(minimagick_cli)
+        MiniMagick.configure do |config|
+          case minimagick_cli
+          when "graphicsmagick"
+          config.cli = :graphicsmagick
+          when "imagemagick"
+            config.cli = :imagemagick
+          else
+            config.cli = MiniMagick.cli()
+          end
+          config.timeout = 5
+        end
       end
 
       def self.get_needed_icons(devices, needed_icons, is_android = false, custom_sizes = {})

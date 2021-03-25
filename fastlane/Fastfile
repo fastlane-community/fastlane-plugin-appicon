@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 lane :ios do
   appicon(
     appicon_image_file: 'spec/fixtures/Themoji.png',
-    appicon_devices: [:ipad, :iphone, :ios_marketing, :watch, :watch_marketing],
+    appicon_devices: %i[ipad iphone ios_marketing watch watch_marketing],
     appicon_path: 'app'
   )
 end
@@ -18,7 +20,7 @@ end
 lane :ios_messages_extension do
   appicon(
     appicon_image_file: 'spec/fixtures/ThemojiSplash.png',
-    appicon_devices: [:iphone, :ipad, :ios_marketing, :messages],
+    appicon_devices: %i[iphone ipad ios_marketing messages],
     appicon_path: 'app/iMessageStickers/Stickers.xcassets',
     messages_extension: true
   )
@@ -44,8 +46,8 @@ end
 lane :android_splash do
   android_appicon(
     appicon_image_file: 'spec/fixtures/ThemojiSplash.png',
-    appicon_icon_types: [:splash_port, :splash_land],
+    appicon_icon_types: %i[splash_port splash_land],
     appicon_path: 'app/res/drawable',
     appicon_filename: 'splash'
-  ) 
+  )
 end
