@@ -49,10 +49,18 @@ module Fastlane
         custom_sizes = params[:appicon_custom_sizes]
 
         icons = Helper::AppiconHelper.get_needed_icons(params[:appicon_icon_types], self.needed_icons, true, custom_sizes)
+
+        allow_upsampling = params[:allow_upsampling]
+        if !allow_upsampling
+          input_image = MiniMagick::Image.open(fname)
+          # Check that the input image is large enough for the needed icons without upsampling
+          maxWidth = icons.map { |v| v['width'] }.max.to_i
+          maxHeight = icons.map { |v| v['height'] }.max.to_i
+          Helper::AppiconHelper.check_input_image_size(input_image, maxWidth, maxHeight)
+        end
+
         icons.each do |icon|
           image = MiniMagick::Image.open(fname)
-
-          Helper::AppiconHelper.check_input_image_size(image, 1024, 1024)
 
           # Custom icons will have basepath and filename already defined
           if icon.has_key?('basepath') && icon.has_key?('filename')
@@ -172,6 +180,12 @@ module Fastlane
           FastlaneCore::ConfigItem.new(key: :generate_rounded,
                                description: "Generate round icons?",
                              default_value: false,
+                                      type: Boolean),
+          FastlaneCore::ConfigItem.new(key: :allow_upsampling,
+                                  env_name: "ALLOW_UPSAMPLING",
+                             default_value: false,
+                               description: "Allow the input image to be upsampled to larger sizes",
+                                  optional: true,
                                       type: Boolean),
           FastlaneCore::ConfigItem.new(key: :minimagick_cli,
                                   env_name: "APPICON_MINIMAGICK_CLI",

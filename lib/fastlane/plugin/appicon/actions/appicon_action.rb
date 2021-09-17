@@ -75,13 +75,7 @@ module Fastlane
         basepath = Pathname.new(File.join(params[:appicon_path], is_messages_extension ? params[:appicon_messages_name] : params[:appicon_name]))
         
         image = MiniMagick::Image.open(fname)
-
-        if is_messages_extension
-          Helper::AppiconHelper.check_input_image_size(image, 1024, 768)
-        else
-          Helper::AppiconHelper.check_input_image_size(image, 1024, 1024)
-        end
-
+        
         # Convert image to png
         image.format 'png'
 
@@ -97,6 +91,15 @@ module Fastlane
         images = []
 
         icons = Helper::AppiconHelper.get_needed_icons(params[:appicon_devices], is_messages_extension ? self.needed_icons_messages_extension : self.needed_icons, false)
+
+        allow_upsampling = params[:allow_upsampling]
+        if !allow_upsampling
+          # Check that the input image is large enough for the needed icons without upsampling
+          maxWidth = icons.map { |v| v['width'] }.max.to_i
+          maxHeight = icons.map { |v| v['height'] }.max.to_i
+          Helper::AppiconHelper.check_input_image_size(image, maxWidth, maxHeight)
+        end
+
         icons.each do |icon|
           width = icon['width']
           height = icon['height']
@@ -206,6 +209,12 @@ module Fastlane
                                   env_name: "APPICON_MESSAGES_EXTENSION",
                              default_value: false,
                                description: "App icon is generated for Messages extension",
+                                  optional: true,
+                                      type: Boolean),
+          FastlaneCore::ConfigItem.new(key: :allow_upsampling,
+                                  env_name: "ALLOW_UPSAMPLING",
+                             default_value: false,
+                               description: "Allow the input image to be upsampled to larger sizes",
                                   optional: true,
                                       type: Boolean),
           FastlaneCore::ConfigItem.new(key: :minimagick_cli,

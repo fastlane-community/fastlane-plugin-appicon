@@ -8,12 +8,21 @@ lane :ios do
   )
 end
 
+lane :ios_iphone do
+  appicon(
+    appicon_image_file: 'spec/fixtures/ThemojiSmall.png',
+    appicon_devices: %i[iphone],
+    appicon_path: 'app'
+  )
+end
+
 lane :ios_splash do
   appicon(
     appicon_image_file: 'spec/fixtures/ThemojiSplash.png',
     appicon_devices: [:universal],
     appicon_path: 'app',
-    appicon_name: 'Splash.imageset'
+    appicon_name: 'Splash.imageset',
+    allow_upsampling: true
   )
 end
 
@@ -39,7 +48,8 @@ lane :android do
   android_appicon(
     appicon_image_file: 'spec/fixtures/Themoji.png',
     appicon_path: 'app/res/mipmap',
-    generate_rounded: true
+    generate_rounded: true,
+    allow_upsampling: true
   )
 end
 
