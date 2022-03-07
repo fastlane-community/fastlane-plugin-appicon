@@ -12,12 +12,13 @@ module Fastlane
             '3x' => ['2732x2732']
           },
           iphone: {
-            '2x' => ['20x20', '29x29', '40x40', '60x60'],
+            '1x' => ['20x20', '29x29', '57x57'],
+            '2x' => ['20x20', '29x29', '40x40', '57x57', '60x60'],
             '3x' => ['20x20', '29x29', '40x40', '60x60']
           },
           ipad: {
-            '1x' => ['20x20', '29x29', '40x40', '76x76'],
-            '2x' => ['20x20', '29x29', '40x40', '76x76', '83.5x83.5']
+            '1x' => ['20x20', '29x29', '40x40', '50x50', '72x72', '76x76'],
+            '2x' => ['20x20', '29x29', '40x40', '50x50', '72x72', '76x76', '83.5x83.5']
           },
           :ios_marketing => {
             '1x' => ['1024x1024']
@@ -27,12 +28,23 @@ module Fastlane
                       ['24x24', 'notificationCenter', '38mm'],
                       ['27.5x27.5', 'notificationCenter', '42mm'],
                       ['29x29', 'companionSettings'],
+                      ['33x33', 'notificationCenter', '45mm'],
                       ['40x40', 'appLauncher', '38mm'],
                       ['44x44', 'appLauncher', '40mm'],
+                      ['44x44', 'notificationCenter', '40mm'],
+                      ['46x46', 'appLauncher', '41mm'],
+                      ['46x46', 'notificationCenter', '41mm'],
                       ['50x50', 'appLauncher', '44mm'],
+                      ['50x50', 'notificationCenter', '44mm'],
+                      ['51x51', 'notificationCenter', '45mm'],
                       ['86x86', 'quickLook', '38mm'],
+                      ['86x86', 'homeScreen', '38mm'],
                       ['98x98', 'quickLook', '42mm'],
-                      ['108x108', 'quickLook', '44mm']
+                      ['98x98', 'homeScreen', '42mm'],
+                      ['102x102', 'appLauncher', '45mm'],
+                      ['108x108', 'quickLook', '44mm'],
+                      ['108x108', 'homeScreen', '44mm'],
+                      ['117x117', 'homeScreen', '45mm']
                     ],
             '3x' => [['29x29', 'companionSettings']]
           },
