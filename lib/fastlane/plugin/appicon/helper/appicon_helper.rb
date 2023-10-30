@@ -9,7 +9,7 @@ module Fastlane
         UI.user_error!("Input image should be square") if image.width / image.height != width / height
       end
 
-      def self.set_cli(minimagick_cli)
+      def self.set_cli(minimagick_cli, timeout)
         MiniMagick.configure do |config|
           case minimagick_cli
           when "graphicsmagick"
@@ -19,7 +19,7 @@ module Fastlane
           else
             config.cli = MiniMagick.cli()
           end
-          config.timeout = 5
+          config.timeout = timeout || 5
         end
       end
 
