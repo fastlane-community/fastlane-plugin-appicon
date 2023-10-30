@@ -26,6 +26,8 @@ brew install imagemagick
 
 The default CLI for the `mini_magick` gem is set to auto pick. It will first try to use `GraphicsMagick` (if you have it installed) otherwise it will use `ImageMagick`. If you want to be explicit about which CLI you use, set the `minimagick_cli` option to `graphicsmagick` or `imagemagick`. Not specifying this option will set `MiniMagick` to use auto which will choose what's available.
 
+You can also set `minimagick_timeout` option to a desired value in seconds. Not specifying this option will set timeout to 5 seconds.
+
 ## About appicon
 
 Generate required icon sizes and iconset from a master application icon.
