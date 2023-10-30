@@ -43,7 +43,7 @@ module Fastlane
 
       def self.run(params)
 
-        Helper::AppiconHelper.set_cli(params[:minimagick_cli])
+        Helper::AppiconHelper.set_cli(params[:minimagick_cli], params[:minimagick_timeout])
 
         fname = params[:appicon_image_file]
         custom_sizes = params[:appicon_custom_sizes]
@@ -181,7 +181,12 @@ module Fastlane
                               verify_block: proc do |value|
                                         av = %w(graphicsmagick imagemagick)
                                         UI.user_error!("Unsupported minimagick cli '#{value}', must be: #{av}") unless av.include?(value)
-                                      end)
+                                      end),
+          FastlaneCore::ConfigItem.new(key: :minimagick_timeout,
+                                  env_name: "APPICON_MINIMAGICK_TIMEOUT",
+                               description: "Set MiniMagick CLI timeout (5 seconds by default)",
+                                  optional: true,
+                                      type: Integer)
         ]
       end
 
